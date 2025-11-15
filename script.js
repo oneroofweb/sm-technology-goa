@@ -60,3 +60,56 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    // --- 1. FAQ Accordion Logic ---
+    const faqQuestions = document.querySelectorAll('.faq-question');
+
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const item = question.parentElement; // .faq-item
+            const wasActive = item.classList.contains('active');
+
+            // Pehle sabhi open items ko band karo
+            document.querySelectorAll('.faq-item').forEach(otherItem => {
+                otherItem.classList.remove('active');
+            });
+
+            // Agar item pehle se active nahi tha, toh use open karo
+            if (!wasActive) {
+                item.classList.add('active');
+            }
+            // Agar active tha, toh upar waale code se woh band ho chuka hai
+        });
+    });
+
+    
+    // --- 2. "Read More" Button Logic ---
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    const allFaqItems = document.querySelectorAll('.faq-list .faq-item');
+    
+    // Start index for the next items to show (item 5 is index 4, so next is 5)
+    let nextItemIndex = 5; 
+
+    loadMoreBtn.addEventListener('click', function() {
+        const itemsToShow = 5;
+        const endIndex = nextItemIndex + itemsToShow;
+
+        // Loop through the next 5 items
+        for (let i = nextItemIndex; i < endIndex; i++) {
+            if (allFaqItems[i]) {
+                allFaqItems[i].classList.remove('hidden');
+            }
+        }
+
+        // Update the index for the *next* click
+        nextItemIndex = endIndex;
+
+        // Agar saare items show ho gaye hain, toh button hide kar do
+        if (nextItemIndex >= allFaqItems.length) {
+            loadMoreBtn.style.display = 'none';
+        }
+    });
+
+});
